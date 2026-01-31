@@ -9,14 +9,14 @@ static void uart_init(uint32_t baud_rate);
  * 该结构体用于描述一组 UART 硬件资源
  * 便于后续扩展为多串口（可仿照 LED/KEY 的表驱动方式）
  */
-typedef struct 
+typedef struct
 {
-    uint32_t        uart_no;    /* USART 外设编号，如 USART0 / USART1 */
-    rcu_periph_enum rcu_uart;   /* USART 外设时钟 */
-    rcu_periph_enum rcu_gpio;   /* GPIO 端口时钟 */
-    uint32_t        gpio;       /* GPIO 端口基地址，如 GPIOA */
-    uint32_t        tx_pin;     /* TX 引脚 */
-    uint32_t        rx_pin;     /* RX 引脚 */
+    uint32_t uart_no;         /* USART 外设编号，如 USART0 / USART1 */
+    rcu_periph_enum rcu_uart; /* USART 外设时钟 */
+    rcu_periph_enum rcu_gpio; /* GPIO 端口时钟 */
+    uint32_t gpio;            /* GPIO 端口基地址，如 GPIOA */
+    uint32_t tx_pin;          /* TX 引脚 */
+    uint32_t rx_pin;          /* RX 引脚 */
 } uart_hwinfo_t;
 
 /* ======================== UART0 硬件资源配置 ======================== */
@@ -26,13 +26,13 @@ typedef struct
  * RX : PA10
  */
 static const uart_hwinfo_t g_uart_hwinfo =
-{
-    USART0,        /* uart_no  */
-    RCU_USART0,    /* rcu_uart */
-    RCU_GPIOA,     /* rcu_gpio */
-    GPIOA,         /* gpio     */
-    GPIO_PIN_9,    /* tx_pin   */
-    GPIO_PIN_10    /* rx_pin   */
+    {
+        USART0,     /* uart_no  */
+        RCU_USART0, /* rcu_uart */
+        RCU_GPIOA,  /* rcu_gpio */
+        GPIOA,      /* gpio     */
+        GPIO_PIN_9, /* tx_pin   */
+        GPIO_PIN_10 /* rx_pin   */
 };
 /**
 ***********************************************************
@@ -46,7 +46,7 @@ static const uart_hwinfo_t g_uart_hwinfo =
 
 void drv_uart_init(uint32_t baud_rate)
 {
-    uart_gpio_init();   /* 初始化串口 GPIO */
+    uart_gpio_init();     /* 初始化串口 GPIO */
     uart_init(baud_rate); /* 初始化 UART 外设参数 */
 }
 
@@ -129,7 +129,8 @@ void uart_send_char(const char ch)
     usart_data_transmit(g_uart_hwinfo.uart_no, (uint8_t)ch);
 
     /* 等待发送缓冲区为空（可以发送下一个字节） */
-    while (usart_flag_get(g_uart_hwinfo.uart_no, USART_FLAG_TBE) == RESET);
+    while (usart_flag_get(g_uart_hwinfo.uart_no, USART_FLAG_TBE) == RESET)
+        ;
 }
 
 /**
@@ -155,7 +156,6 @@ void uart_send_string(const char *str)
     }
 }
 
-
 /**
 ***********************************************************
 * @brief  串口重定向
@@ -166,7 +166,6 @@ void uart_send_string(const char *str)
 */
 int fputc(int ch, FILE *f)
 {
-	uart_send_char((uint8_t)ch);
-	return ch;
+    uart_send_char((uint8_t)ch);
+    return ch;
 }
-

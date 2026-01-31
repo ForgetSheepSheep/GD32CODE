@@ -1,0 +1,9 @@
+.\objects\modbus_slave.o: ..\Mid_Modbus\modbus_slave.c
+.\objects\modbus_slave.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\modbus_slave.o: ..\Mid_Modbus\include\mb.h
+.\objects\modbus_slave.o: ..\Drv_Modbus\port.h
+.\objects\modbus_slave.o: D:\Keil\ARM\ARMCC\Bin\..\include\inttypes.h
+.\objects\modbus_slave.o: ..\Mid_Modbus\include\mbport.h
+.\objects\modbus_slave.o: ..\Mid_Modbus\include\mbproto.h
+.\objects\modbus_slave.o: ..\Mid_Modbus\include\mbutils.h
+.\objects\modbus_slave.o: ..\Mid_Modbus\modbus_slave.h
