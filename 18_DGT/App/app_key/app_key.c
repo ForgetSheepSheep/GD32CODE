@@ -1,0 +1,76 @@
+#include "app_key/app_key.h"
+#include "drv_key/drv_key.h"   // 你的 drv_get_key_val() 声明
+#include "drv_rtc/drv_rtc.h"
+void app_key_task(void)
+{
+    uint8_t key_val;
+
+    key_val = drv_get_key_val();
+
+    if (key_val == KEY_NULL_PRESS)
+    {
+        return; // 没有按键，直接返回
+    }
+
+    switch (key_val)
+    {
+        /* ---------- 单击 ---------- */
+        case KEY1_SHORT_PRESS:
+			while(1);
+            printf("[KEY] KEY1 SHORT PRESS\r\n");
+            break;
+        case KEY2_SHORT_PRESS:
+            printf("[KEY] KEY2 SHORT PRESS\r\n");
+            break;
+        case KEY3_SHORT_PRESS:
+            printf("[KEY] KEY3 SHORT PRESS\r\n");
+            break;
+        case KEY4_SHORT_PRESS:
+            printf("[KEY] KEY4 SHORT PRESS\r\n");
+            break;
+
+        /* ---------- 双击 ---------- */
+        case KEY1_DOUBLE_PRESS:
+            printf("[KEY] KEY1 DOUBLE PRESS\r\n");
+            break;
+        case KEY2_DOUBLE_PRESS:
+            printf("[KEY] KEY2 DOUBLE PRESS\r\n");
+            break;
+        case KEY3_DOUBLE_PRESS:
+            printf("[KEY] KEY3 DOUBLE PRESS\r\n");
+            break;
+        case KEY4_DOUBLE_PRESS:
+            printf("[KEY] KEY4 DOUBLE PRESS\r\n");
+            break;
+
+        /* ---------- 长按 ---------- */
+        case KEY1_LONG_PRESS:
+            printf("[KEY] KEY1 LONG PRESS\r\n");
+            break;
+        case KEY2_LONG_PRESS:
+            printf("[KEY] KEY2 LONG PRESS\r\n");
+            break;
+        case KEY3_LONG_PRESS:
+            printf("[KEY] KEY3 LONG PRESS\r\n");
+            break;
+        case KEY4_LONG_PRESS:
+            printf("[KEY] KEY4 LONG PRESS\r\n");
+            break;
+
+        /* ---------- 异常 ---------- */
+        case KEY_ERROR_PRESS:
+            printf("[KEY] ERROR PRESS\r\n");
+            break;
+
+        default:
+            printf("[KEY] UNKNOWN VALUE: 0x%02X\r\n", key_val);
+            break;
+    }
+}
+void rtc_task(void)
+{
+		rtc_time_t rtcTime;
+	drv_get_rtc_time(&rtcTime);
+	printf("%d-%02d-%02d %02d:%02d:%02d\n", rtcTime.year, rtcTime.month, rtcTime.day,
+											rtcTime.hour,rtcTime.minute, rtcTime.second);
+}
